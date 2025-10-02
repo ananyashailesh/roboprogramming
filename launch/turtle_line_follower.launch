@@ -1,0 +1,13 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtle_line_follower)/worlds/line_track.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+  <param name="robot_description" command="$(find xacro)/xacro $(find turtle_line_follower)/urdf/turtle_bot.urdf"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-urdf -model turtle_bot -param robot_description -x -2.5 -y 0 -z 0.1"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <node name="line_follower" pkg="turtle_line_follower" type="line_follower.py" output="screen"/>
+</launch>
